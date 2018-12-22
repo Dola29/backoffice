@@ -132,11 +132,20 @@
                 axios.get("api/user").then(({data})=>(this.users = data.data));
             },
             createUser(){
-                this.form.post('api/user'); 
+                this.$Progress.start();
+                this.form.post('api/user');
+                
+                $('#addNewModal').modal('hide');
+
+                toast({
+                    type: 'success',
+                    title: 'Signed in successfully'
+                });
+                this.$Progress.finish();
             }
         },
-        created() {
-            this.loadUsers();
+        created() {            
+            this.loadUsers();            
         }
     }
 </script>
