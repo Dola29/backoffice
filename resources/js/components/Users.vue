@@ -133,20 +133,29 @@
             },
             createUser(){
                 this.$Progress.start();
-                this.form.post('api/user');
-                
-                $('#addNewModal').modal('hide');
 
-                toast({
-                    type: 'success',
-                    title: 'Signed in successfully'
+                this.form.post('api/user')
+                .then(()=>{
+                    Fire.$emit('AfterCreate');
+                    $('#addNewModal').modal('hide');
+                    toast({
+                        type: 'success',
+                        title: 'Signed in successfully'
+                    });
+                    this.$Progress.finish();
+                    })
+                .catch(()=>{
+                    
                 });
-                this.$Progress.finish();
+                
             }
         },
         created() {            
             this.loadUsers(); 
-            setInterval(() => this.loadUsers(),3000);           
+            //setInterval(() => this.loadUsers(),3000);  
+            Fire.$on('AfterCreate',()=>{
+                this.loadUsers(); 
+            });    
         }
     }
 </script>
