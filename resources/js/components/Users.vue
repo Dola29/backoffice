@@ -7,8 +7,7 @@
                 <h3 class="card-title">Users List</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" 
-                        data-target="#addNewModal">Add New 
+                    <button class="btn btn-success" @click="newModal">Add New 
                         <i class="fas fa-user-plus"></i>
                     </button>
                 </div>
@@ -33,11 +32,11 @@
                             <td>{{user.created_at | myDate}}</td>
 
                             <td>
-                                <a href="#">
+                                <a href="#" @click="editModal(user)">
                                     <i class="fas fa-edit blue"></i>
                                 </a>
                                 /
-                                <a href="#">
+                                <a href="#" @click="deleteUser(user.id)">
                                     <i class="fas fa-trash red"></i>
                                 </a>
                             </td>
@@ -128,6 +127,40 @@
             }
         },
         methods:{
+            editModal(user){
+                this.form.reset();
+                $('#addNewModal').modal('show');
+                this.form.fill(user);
+            },
+            newModal(){
+                this.form.reset();
+                $('#addNewModal').modal('show');
+            },
+            deleteUser(id){
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) { 
+                        this.form.delete('api/user/'+id).then(()=>{ 
+                            swal(
+                                'Deleted!',
+                                'The user has been deleted.',
+                                'success'
+                            );
+                             Fire.$emit('AfterCreate');    
+                        }).catch(()=>{
+                            swal('Failed!','There was something wrong','error');
+                        });
+                    }
+                   
+                });
+            },
             loadUsers(){
                 axios.get("api/user").then(({data})=>(this.users = data.data));
             },
