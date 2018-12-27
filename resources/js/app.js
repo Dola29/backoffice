@@ -42,8 +42,10 @@ Vue.use(VueProgressBar, {
 
 let  routes = [
     {path: '/dashboard', component:require('./components/Dashboard.vue')},
+    {path: '/developer', component:require('./components/Developer.vue')},
     {path: '/users', component:require('./components/Users.vue')},
     {path: '/profile', component:require('./components/Profile.vue')},
+    
 ]
 
 const router = new VueRouter({
@@ -61,6 +63,8 @@ Vue.filter('myDate', function(date){
 
 window.Fire = new Vue();
 
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -71,6 +75,21 @@ window.Fire = new Vue();
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
