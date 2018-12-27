@@ -70952,6 +70952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             editMode: false,
             users: {},
             form: new Form({
+                id: '',
                 name: '',
                 email: '',
                 password: '',
@@ -70963,7 +70964,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        updateUser: function updateUser() {},
+        updateUser: function updateUser() {
+            var _this = this;
+
+            this.$Progress.start();
+            this.form.put('api/user/' + this.form.id).then(function () {
+                $('#addNewModal').modal('hide');
+                swal('Updated!', 'The info has been updated.', 'success');
+                _this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(function () {
+                _this.$Progress.fail();
+            });
+        },
         editModal: function editModal(user) {
             this.editMode = true, this.form.reset();
             $('#addNewModal').modal('show');
@@ -70974,7 +70987,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $('#addNewModal').modal('show');
         },
         deleteUser: function deleteUser(id) {
-            var _this = this;
+            var _this2 = this;
 
             swal({
                 title: 'Are you sure?',
@@ -70986,7 +70999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this.form.delete('api/user/' + id).then(function () {
+                    _this2.form.delete('api/user/' + id).then(function () {
                         swal('Deleted!', 'The user has been deleted.', 'success');
                         Fire.$emit('AfterCreate');
                     }).catch(function () {
@@ -70996,15 +71009,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         loadUsers: function loadUsers() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("api/user").then(function (_ref) {
                 var data = _ref.data;
-                return _this2.users = data.data;
+                return _this3.users = data.data;
             });
         },
         createUser: function createUser() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.$Progress.start();
 
@@ -71015,19 +71028,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     type: 'success',
                     title: 'Signed in successfully'
                 });
-                _this3.$Progress.finish();
+                _this4.$Progress.finish();
             }).catch(function () {
                 swal('Failed!', 'There was something wrong', 'error');
             });
         }
     },
     created: function created() {
-        var _this4 = this;
+        var _this5 = this;
 
         this.loadUsers();
         //setInterval(() => this.loadUsers(),3000);  
         Fire.$on('AfterCreate', function () {
-            _this4.loadUsers();
+            _this5.loadUsers();
         });
     }
 });
