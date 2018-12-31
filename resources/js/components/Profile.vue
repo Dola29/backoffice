@@ -64,11 +64,11 @@
                     <form class="form-horizontal">
                       <div class="form-group">
                         <label for="inputName" class="control-label">Name</label>                        
-                        <input type="text" class="form-control" id="inputName" placeholder="Name">                        
+                        <input type="text" v-model="form.name" class="form-control" id="inputName" placeholder="Name">                        
                       </div>
                       <div class="form-group">
                         <label for="inputEmail" class="control-label">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">                        
+                        <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">                        
                       </div>                    
                       <div class="form-group">
                         <label for="inputExperience" class="control-label">Experience</label>
@@ -101,9 +101,26 @@
 </template>
 
 <script>
-    export default {
+    export default {       
+        data(){
+          return{
+            form: new Form({
+                    id:'',
+                    name :'',
+                    email: '',
+                    password: '',
+                    type: '',
+                    bio: '',
+                    photo: ''
+                })
+          }
+        },
         mounted() {
             console.log('Component mounted.')
+        },
+        created(){
+            axios.get("api/profile")
+            .then(({data}) => (this.form.fill(data)));
         }
     }
 </script>
