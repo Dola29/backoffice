@@ -76,7 +76,7 @@
                       </div>
                       <div class="form-group">
                         <label for="inputPhoto" class="control-label">Profile Photo</label><br>                        
-                        <input type="file" class="" id="inputPhoto">                        
+                        <input type="file" class="" @change="updateProfile" id="inputPhoto">                        
                       </div>
                       <div class="form-group">
                         <label for="inputPassport" class="control-label">Passport (leave empty if not changing)</label>
@@ -117,6 +117,16 @@
         },
         mounted() {
             console.log('Component mounted.')
+        },
+        methods:{
+          updateProfile(e){           
+            let file = e.target.files[0];            
+            let reader = new FileReader();
+            reader.onloadend = (file) => {
+              this.form.photo = reader.result;
+            }
+            reader.readAsDataURL(file);
+          }
         },
         created(){
             axios.get("api/profile")
