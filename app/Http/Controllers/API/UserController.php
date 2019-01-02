@@ -61,8 +61,13 @@ class UserController extends Controller
     public function upadateProfile(Request $request)
     {
        $user =  auth('api')->user();
-       //return ['message' => 'Success'];
-       return $request->photo;
+       
+       if($request->photo){
+           
+           $name = time().'.'.explode('/',explode(':',substr($request->photo,0,strpos
+           ($request->photo,';')))[1])[1];
+           \Image::make($request->photo)->save(public_path('img/profile/').$name);
+       }
     }
     /**
      * Display the specified resource.
