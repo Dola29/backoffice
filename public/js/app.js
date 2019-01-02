@@ -72108,46 +72108,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            form: new Form({
-                id: '',
-                name: '',
-                email: '',
-                password: '',
-                type: '',
-                bio: '',
-                photo: ''
-            })
+  data: function data() {
+    return {
+      form: new Form({
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        type: '',
+        bio: '',
+        photo: ''
+      })
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  },
+
+  methods: {
+    updateInfo: function updateInfo() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile/').then(function () {
+        _this.$Progress.finished();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
+    },
+    updateProfile: function updateProfile(e) {
+      var _this2 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      if (file['size'] < 2111775) {
+        console.log(file);
+        reader.onloadend = function (file) {
+          _this2.form.photo = reader.result;
         };
-    },
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
-
-    methods: {
-        updateInfo: function updateInfo() {
-            this.form.put('api/profile/').then(function () {}).catch(function () {});
-        },
-        updateProfile: function updateProfile(e) {
-            var _this = this;
-
-            var file = e.target.files[0];
-            var reader = new FileReader();
-            reader.onloadend = function (file) {
-                _this.form.photo = reader.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    },
-    created: function created() {
-        var _this2 = this;
-
-        axios.get("api/profile").then(function (_ref) {
-            var data = _ref.data;
-            return _this2.form.fill(data);
+        reader.readAsDataURL(file);
+      } else {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'You are uploading a large file'
         });
+      }
     }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    axios.get("api/profile").then(function (_ref) {
+      var data = _ref.data;
+      return _this3.form.fill(data);
+    });
+  }
 });
 
 /***/ }),
