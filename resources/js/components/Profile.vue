@@ -80,7 +80,7 @@
                       </div>
                       <div class="form-group">
                         <label for="inputPassport" class="control-label">Passport (leave empty if not changing)</label>
-                        <input type="text" class="form-control" id="inputPassport" placeholder="passport">                       
+                        <input type="text"  v-model="form.password" class="form-control" id="inputPassport" placeholder="passport">                       
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
