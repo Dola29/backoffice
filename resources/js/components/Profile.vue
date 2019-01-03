@@ -10,7 +10,7 @@
                     <h5 class="widget-user-desc">Web Designer</h5>
                   </div>
                   <div class="widget-user-image">
-                    <img class="img-circle" src="" alt="User Avatar">
+                    <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
                   </div>
                   <div class="card-footer">
                     <div class="row">
@@ -129,6 +129,9 @@
             console.log('Component mounted.')
         },
         methods:{
+          getProfilePhoto(){
+            return "img/profile/"+this.form.photo;
+          },
           updateInfo(){
               this.$Progress.start();
               this.form.put('api/profile/')
