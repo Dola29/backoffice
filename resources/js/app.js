@@ -51,6 +51,7 @@ let  routes = [
     {path: '/developer', component:require('./components/Developer.vue')},
     {path: '/users', component:require('./components/Users.vue')},
     {path: '/profile', component:require('./components/Profile.vue')},
+    {path: '*', component:require('./components/NotFound.vue')},
     
 ]
 
