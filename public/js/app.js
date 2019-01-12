@@ -72885,7 +72885,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var query = _this6.$parent.search;
             axios.get('api/findUser?q=' + query).then(function (data) {
                 _this6.users = data.data;
-            }).catch();
+            }).catch(function () {});
         });
         this.loadUsers();
         //setInterval(() => this.loadUsers(),3000);  
